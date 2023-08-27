@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--acima importe do thymeleaf-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Projeto Spring Financeiro</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<style type="text/css">
+body{
+background: #4B0082;
+}
+
+table{
+color: white;
+}
+
+label{
+color: white;
+}
+
+.principal{
+
+position: absolute;
+top: 20%;
+left:30%;
+right: 30%;
+
+}
+</style>
+
+<body>
+
+<div class="principal">
+<form action="salvarfinanceiro" id="formfinanceiro" method="post" th:object="${financeiroobj}">
+
+  <div class="form-group">
+    <label for="formGroupExampleInput2">ID</label>
+    <input name="id" type="number"  class="form-control" id="formGroupExampleInput2" placeholder="ID" readonly="readonly" th:field="*{id}">
+         <label for="formGroupExampleInput">Mes do ano</label>
+    <input name="mes"  required type="text" class="form-control" id="formGroupExampleInput" placeholder="" th:field="*{mes}">
+ 
+         <label for="formGroupExampleInput">Salario</label>
+    <input name="salario" required type="number" class="form-control" id="formGroupExampleInput" placeholder="" th:field="*{salario}">
+ 
+    <label for="formGroupExampleInput2">Gastos</label>
+    <input name="gastos" required type="number" class="form-control" id="formGroupExampleInput2" placeholder="" th:field="*{gastos}">
+     <label for="formGroupExampleInput2">Total</label>
+    <input readonly="readonly" type="number" class="form-control" id="formGroupExampleInput2" >
+  </div>
+<button type="submit" class="btn btn-primary">Salvar</button>
+
+<button class="btn btn-primary" onclick="document.getElementById('formfinanceiro').reset();">Novo</button>
+<a class="btn btn-primary"href="listafinanceira">Listar Dados</a>
+</form>
+<br/>
+<br/>
+
+<!--tags br sao usadas para dar espaços nas linhas e elementos html-->
+<br/>
+<br/>
+
+<form action="pesquisarFinanceiro" method="post">
+<label for="formGroupExampleInput2">Pesquisar por Nome</label>
+<input name="nomePesquisa"  class="form-control">
+<br/>
+<input type="submit" value="Buscar" class="form-control">
+</form>
+
+<br/>
+<br/>
+
+<table class="table">
+<thead>
+<!--acima a tag thead e usada para que possamos criar as linhas com os nomes do cabecalho da tabela que sera retornada do banco de dados-->
+<tr>
+<th>Mês</th>
+<th>Salario</th>
+<th>Gasto</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tr scope="col" th:each = "financeiro : ${financeiros}">
+<td scope="col"><a th:href="@{/observacao/{idfinanceiro}(idfinanceiro=${financeiro.id})}"><span th:text= "${financeiro.mes}"></span></a></td>
+<!--no codigo a cima a tag span e utilizada em conjunto com a tag a para fazermos com que o nome do mes vire um link para direcionarmos para outra tela-->
+<td scope="col" th:text= "${financeiro.salario}"></td>
+<td scope="col" th:text= "${financeiro.gastos}"></td>
+<td scope="col"><a th:href="@{/editarfinanceiro/{idfinanceiro}(idfinanceiro=${financeiro.id})}">Editar</a></td>
+<td scope="col"><a th:href="@{/removerfinanceiro/{idfinanceiro}(idfinanceiro=${financeiro.id})}">Excluir</a></td>
+</tr>
+</table>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

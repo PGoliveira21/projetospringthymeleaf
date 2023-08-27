@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--acima importe do thymeleaf-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Projeto Spring Financeiro</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<style type="text/css"> 
+body{
+background: #4B0082;
+color: white;
+
+}
+
+
+
+.topo {
+position: absolute;
+top: 10%;
+left:30%;
+right: 30%;
+}
+
+</style>
+
+</head>
+     
+<div class="topo" th:each="p : ${financeiroobj}">
+     <div>
+       <p>ID: <span th:text="${p.id}"></span></p>
+       <p>Mes: <span th:text="${p.mes}"></span></p>
+       <p>Salario: <span th:text="${p.salario}"></span></p>
+       <p>Gasto: <span th:text="${p.gastos}"></span></p>
+     </div>
+     <a href="cadastroprincipal">Voltar ao Cadastro</a>
+   <br/>
+   <br/>
+   <br/>
+     
+     <h5>Descriçoes a inserir</h5>
+     
+     <form th:action="@{/addcomentario/{idfinanceiro}(idfinanceiro=${financeiroobj.id})}" method="post">
+     <div class="row">
+     
+     <div  class="col-sm-6 col-md-6 col-lg-6">
+    <div class="form-group">
+    <label for="comentario">Descrição do gasto</label>
+    <input type="text" class="form-control" id="comentario" name="comentario">
+    </div>
+  </div>
+  
+     <div  class="col-sm-6 col-md-6 col-lg-6">
+  <div class="form-group">
+    <label for="valor">Valor</label>
+    <input type="text"  class="form-control" id="valor" name="valor">
+<!--acima sempre determinar o type pois como não tinha colocado nesse input mesmo digitando dados no front era passado para o banco de dados valor null-->
+  </div>
+   </div>
+   
+  </div>
+  <button type="submit" class="btn btn-primary">Adicionar</button>
+</form>
+
+<!-- construcao da tabela de retorno do banco de dados-->
+<br/>
+<br/>
+<table class="table">
+<thead>
+<!--acima a tag thead e usada para que possamos criar as linhas com os nomes do cabecalho da tabela que sera retornada do banco de dados-->
+<tr>
+<th>Mês</th>
+<th>Salario</th>
+</tr>
+</thead>
+<tr scope="col" th:each = "observacao : ${observacaoo}">
+<!--no codigo a cima a tag span e utilizada em conjunto com a tag a para fazermos com que o nome do mes vire um link para direcionarmos para outra tela-->
+<td scope="col" th:text= "${observacao.comentario}"></td>
+<td scope="col" th:text= "${observacao.valor}"></td>
+
+</tr>
+</table>
+
+
+  </div>
+     
+ 
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
