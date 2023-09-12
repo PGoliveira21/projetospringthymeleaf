@@ -21,6 +21,10 @@ label{
 color: white;
 }
 
+span{
+color: white;
+}
+
 .principal{
 
 position: absolute;
@@ -34,19 +38,27 @@ right: 30%;
 <body>
 
 <div class="principal">
+
+<br/>
+<!--abaixo o thymeleaf pega a lista de erros que vem da classe controller do metodo salvarFinanceiro,como o metodo ja e uma string no backend so precisamos percorrer a lista e mostrar como no codigo abaixo-->
+<div th:each = "m : ${msg}">
+  <span th:text = "${m}"></span>
+</div>
+<br/>
+
 <form action="salvarfinanceiro" id="formfinanceiro" method="post" th:object="${financeiroobj}">
 
   <div class="form-group">
     <label for="formGroupExampleInput2">ID</label>
     <input name="id" type="number"  class="form-control" id="formGroupExampleInput2" placeholder="ID" readonly="readonly" th:field="*{id}">
          <label for="formGroupExampleInput">Mes do ano</label>
-    <input name="mes"  required type="text" class="form-control" id="formGroupExampleInput" placeholder="" th:field="*{mes}">
+    <input name="mes"  type="" class="form-control" id="formGroupExampleInput" placeholder="" th:field="*{mes}">
  
          <label for="formGroupExampleInput">Salario</label>
-    <input name="salario" required type="number" class="form-control" id="formGroupExampleInput" placeholder="" th:field="*{salario}">
+    <input name="salario"  type="number" class="form-control" id="formGroupExampleInput" placeholder="" th:field="*{salario}">
  
     <label for="formGroupExampleInput2">Gastos</label>
-    <input name="gastos" required type="number" class="form-control" id="formGroupExampleInput2" placeholder="" th:field="*{gastos}">
+    <input name="gastos" type="number" class="form-control" id="formGroupExampleInput2" placeholder="" th:field="*{gastos}">
      <label for="formGroupExampleInput2">Total</label>
     <input readonly="readonly" type="number" class="form-control" id="formGroupExampleInput2" >
   </div>

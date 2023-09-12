@@ -40,8 +40,8 @@ right: 30%;
    <br/>
      
      <h5>Descriçoes a inserir</h5>
-     
-     <form th:action="@{/addcomentario/{idfinanceiro}(idfinanceiro=${financeiroobj.id})}" method="post">
+<!-- onsubmit e usado em conjunto com a funcao de validacao de campos por parte do frontend-->
+     <form th:action="@{/addcomentario/{idfinanceiro}(idfinanceiro=${financeiroobj.id})}" method="post" onsubmit="return validarCampos()? true : false">
      <div class="row">
      
      <div  class="col-sm-6 col-md-6 col-lg-6">
@@ -60,12 +60,20 @@ right: 30%;
    </div>
    
   </div>
-  <button type="submit" class="btn btn-primary">Adicionar</button>
+  <button type="submit" class="btn btn-primary" >Adicionar</button>
 </form>
 
 <!-- construcao da tabela de retorno do banco de dados-->
 <br/>
 <br/>
+
+<br/>
+<!--abaixo o thymeleaf pega a lista de erros que vem da classe controller do metodo salvarFinanceiro,como o metodo ja e uma string no backend so precisamos percorrer a lista e mostrar como no codigo abaixo-->
+<div th:each = "m : ${msg2}">
+  <span th:text = "${m}"></span>
+</div>
+<br/>
+
 <table class="table">
 <thead>
 <!--acima a tag thead e usada para que possamos criar as linhas com os nomes do cabecalho da tabela que sera retornada do banco de dados-->
@@ -78,14 +86,31 @@ right: 30%;
 <!--no codigo a cima a tag span e utilizada em conjunto com a tag a para fazermos com que o nome do mes vire um link para direcionarmos para outra tela-->
 <td scope="col" th:text= "${observacao.comentario}"></td>
 <td scope="col" th:text= "${observacao.valor}"></td>
+<td scope="col"><a th:href="@{/removerobservacao/{idobservacao}(idobservacao=${observacao.id})}">Excluir</a></td>
 
 </tr>
 </table>
-
-
   </div>
      
+ <script type="text/javascript">
  
+                                            <!-- FUNCAO DE VALIDACAO DE CAMPOS -->
+
+function validarCampos(){
+	valor = document.getElementById('valor').value;
+	comentario = document.getElementById('comentario').value;
+	if(valor === '') {
+		alert('Por favor insira um Valor!')
+		return false;
+	} else if (comentario === ''){
+		alert ('Por favor insira uma descrição do gasto valida!')
+		return false;
+	}
+	
+	alert ('Salvo com sucesso!')
+	return true;
+}
+</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

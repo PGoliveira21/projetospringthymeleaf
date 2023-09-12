@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
+
+
+import org.springframework.lang.NonNull;
 
 
 @Entity
@@ -16,8 +21,10 @@ public class DescricaoFinanceira {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@NotEmpty(message = "Comentario não pode ser em branco")
 	private String comentario;
 	
+	@NotEmpty(message = "Valor não pode ser em branco")
 	private String valor;
 	
 
