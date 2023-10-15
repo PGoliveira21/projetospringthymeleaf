@@ -1,12 +1,18 @@
 package com.financeiro.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.ManyToAny;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,11 +28,25 @@ public class Usuario implements UserDetails {
 
 	private String login;
 	private String senha;
+	
+	// os comandos abaixo criam uma relacao de um para muitos atraves de uma lista de roles e uma tabela intermediaria para gerenciarmos os acessos juntando o id da tabela role com o id da tabela usuario
+	@OneToMany(fetch = FetchType.EAGER) 
+	@JoinTable(name = "usuarios_role" , 
+	           joinColumns = @JoinColumn(name = "usuario_id",
+	           referencedColumnName = "id",
+	           table = "usuario"),
+	           
+	           inverseJoinColumns = @JoinColumn(name = "role_id",
+	           referencedColumnName = "id",
+	           table = "role")
+			) //cria a tabela de acesso do usuario
+	private List<Role> roles;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
-		return null;
+		//return null; não e mais usado como nulo, agora nos retornamos os acessos usando o roles
+		return roles;
 	}
 
 	@Override
